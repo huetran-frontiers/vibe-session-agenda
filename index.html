@@ -1,184 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Journal Growth — Vibe Session Agenda</title>
-<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABc0lEQVR4nO2bURKCMAxE244XkWvo8eUaehT8EGawNG3EZrZN8/6ECrtrEhxE77jcngt7bQvMk+csyy/qzTRFJoxAvkmLeeeyXtIBaDK/QXg6BqDR/EbCWygtUEfkMVA7VLPzGuINw7B6pq8CgzB8AH7I8t8xfAUMH8AFLeAMy+P69drfX6ePJTIDagosHfvfc1RvgZRASnSNY/97jqoBSAiUxoYgWoBzsjOjBLwCJGcGB2gALcwMVgsgS1SaYgWgS1SabAAtlKg08CGIxgJAC0BjAaAFoLEA0ALQWABoAWgsALQANBYAWgAaCwAtAI0FgBaAxgLI7czd/NRyY7RYASmjWsw7x7wtrslwDHQGtNBi8CGIbrEmfhxFthi8AtBUDaCFnv6V6hUg2dMSAXf5oGTzT4n1hA1B7r+rVDJP3ioALQDNJ4AR22D1HOINQ7DzGqgdaok8HmeA5hAS3tJDUGMIhCf6KqAphIwXvsnevjIzP8A3l/117Myk+TEAAAAASUVORK5CYII=">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journal Growth: Vibe Session Agenda</title>
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABc0lEQVR4nO2bURKCMAxE244XkWvo8eUaehT8EGawNG3EZrZN8/6ECrtrEhxE77jcngt7bQvMk+csyy/qzTRFJoxAvkmLeeeyXtIBaDK/QXg6BqDR/EbCWygtUEfkMVA7VLPzGuINw7B6pq8CgzB8AH7I8t8xfAUMH8AFLeAMy+P69drfX6ePJTIDagosHfvfc1RvgZRASnSNY/97jqoBSAiUxoYgWoBzsjOjBLwCJGcGB2gALcwMVgsgS1SaYgWgS1SabAAtlKg08CGIxgJAC0BjAaAFoLEA0ALQWABoAWgsALQANBYAWgAaCwAtAI0FgBaAxgLI7czd/NRyY7RYASmjWsw7x7wtrslwDHQGtNBi8CGIbrEmfhxFthi8AtBUDaCFnv6V6hUg2dMSAXf5oGTzT4n1hA1B7r+rVDJP3ioALQDNJ4AR22D1HOINQ7DzGqgdaok8HmeA5hAS3tJDUGMIhCf6KqAphIwXvsnevjIzP8A3l/117Myk+TEAAAAASUVORK5CYII=">
 <style>
-  :root { --blue:#003BDE; --ink:#0f172a; --muted:#64748b; --line:#e5e7eb; --bg:#f4f6fb; }
-  * { box-sizing:border-box; }
-  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--ink); }
-  a { color:inherit; }
-  header.top { background:var(--blue); color:#fff; padding:22px 28px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
-  header.top h1 { margin:0; font-size:22px; font-weight:800; letter-spacing:-.3px; }
-  header.top .sub { font-size:13px; opacity:.85; margin-top:3px; }
-  .edit-btn { background:#fff; color:var(--blue); text-decoration:none; font-weight:700; font-size:13px; padding:9px 16px; border-radius:8px; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,.15); }
-  .edit-btn:hover { background:#eef2ff; }
-  .banner { background:#eef2ff; border-bottom:1px solid #dbe3ff; color:#334155; font-size:13px; padding:10px 28px; }
-  .banner b { color:var(--blue); }
-  .controls { position:sticky; top:0; z-index:20; background:rgba(244,246,251,.95); backdrop-filter:blur(6px); padding:14px 28px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-  .filters { display:flex; gap:8px; flex-wrap:wrap; }
-  .chip { border:1px solid var(--line); background:#fff; color:var(--ink); font-size:13px; font-weight:600; padding:7px 14px; border-radius:999px; cursor:pointer; transition:all .12s; }
-  .chip:hover { border-color:var(--blue); }
-  .chip.active { background:var(--blue); color:#fff; border-color:var(--blue); }
-  .search { margin-left:auto; }
-  .search input { border:1px solid var(--line); border-radius:8px; padding:8px 12px; font-size:13px; width:230px; outline:none; }
-  .search input:focus { border-color:var(--blue); }
-  main { max-width:1000px; margin:0 auto; padding:24px 28px 60px; }
-  .month { margin-bottom:8px; }
-  .month-head { display:flex; align-items:center; gap:10px; cursor:pointer; padding:14px 6px 10px; user-select:none; }
-  .month-head h2 { margin:0; font-size:15px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
-  .month-head .caret { transition:transform .15s; color:var(--muted); font-size:12px; }
-  .month.collapsed .caret { transform:rotate(-90deg); }
-  .month.collapsed .month-body { display:none; }
-  .month-count { font-size:12px; color:var(--muted); font-weight:600; }
-  .card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px; margin-bottom:12px; display:flex; gap:16px; box-shadow:0 1px 2px rgba(15,23,42,.04); }
-  .card.hide { display:none; }
-  .datebadge { flex:0 0 64px; text-align:center; border-right:1px solid var(--line); padding-right:14px; }
-  .datebadge .dow { font-size:11px; font-weight:700; text-transform:uppercase; color:var(--blue); letter-spacing:.5px; }
-  .datebadge .day { font-size:26px; font-weight:800; line-height:1.1; }
-  .datebadge .mon { font-size:11px; color:var(--muted); text-transform:uppercase; }
-  .card-main { flex:1 1 auto; min-width:0; }
-  .meeting { font-size:13px; font-weight:700; color:var(--muted); margin-bottom:10px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-  .flag { font-size:11px; font-weight:800; padding:2px 8px; border-radius:6px; }
-  .flag.adhoc { background:#fef3c7; color:#92400e; }
-  .flag.twohr { background:#dbeafe; color:#1e40af; }
-  .when { font-weight:600; color:#94a3b8; font-size:12px; }
-  .item { display:flex; gap:14px; padding:10px 0; border-top:1px dashed var(--line); }
-  .item:first-child { border-top:none; }
-  .tagcol { flex:0 0 110px; display:flex; flex-direction:column; gap:5px; }
-  .tag { font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; text-align:center; letter-spacing:.4px; }
-  .tag.RTM { background:#dcfce7; color:#166534; }
-  .tag.DEO { background:#ede9fe; color:#5b21b6; }
-  .tag.AHM { background:#fee2e2; color:#991b1b; }
-  .tag.Service { background:#e0f2fe; color:#075985; }
-  .tag.JANE { background:#fce7f3; color:#9d174d; }
-  .tag.Other { background:#f1f5f9; color:#475569; }
-  .item-body { flex:1 1 auto; min-width:0; display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
-  .title { flex:1 1 320px; font-size:14px; font-weight:600; line-height:1.4; }
-  .avatars { flex:0 0 auto; display:flex; }
-  .avatars img { width:34px; height:34px; border-radius:50%; border:2px solid #fff; margin-left:-8px; object-fit:cover; background:#e5e7eb; position:relative; cursor:default; transition:transform .1s; }
-  .avatars img:first-child { margin-left:0; }
-  .avatars img:hover { transform:translateY(-2px) scale(1.08); z-index:5; }
-  .avatars img[data-tip]:hover::after { content:attr(data-tip); }
-  .avwrap { position:relative; display:inline-flex; }
-  .avwrap .tip { position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; font-size:11px; font-weight:600; padding:4px 8px; border-radius:6px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .12s; z-index:30; }
-  .avwrap:hover .tip { opacity:1; }
-  .glow img { box-shadow:0 0 0 3px #fde68a; }
-  .title.match { background:#fef9c3; border-radius:4px; padding:1px 4px; }
-  .empty { text-align:center; color:var(--muted); padding:50px; font-size:14px; }
-  footer { text-align:center; color:var(--muted); font-size:12px; padding:30px; }
+  :root { --blue:#003BDE; --bg:#f5f6fa; --card:#ffffff; --text:#1a1a2e; --muted:#6b7280; --border:#e5e7eb; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); }
+  header { background:var(--blue); color:#fff; padding:20px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+  header h1 { margin:0; font-size:20px; font-weight:700; }
+  header p { margin:4px 0 0; font-size:13px; opacity:.85; }
+  .edit-btn { background:rgba(255,255,255,.15); color:#fff; text-decoration:none; padding:8px 16px; border-radius:8px; font-size:13px; font-weight:600; border:1px solid rgba(255,255,255,.3); transition:.15s; white-space:nowrap; }
+  .edit-btn:hover { background:rgba(255,255,255,.28); }
+  .banner { background:#fff7e6; border-bottom:1px solid #f0d999; color:#8a6100; font-size:12.5px; padding:8px 24px; text-align:center; }
+  .filter-bar { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--border); padding:12px 24px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .filter-bar input[type=text] { flex:1 1 200px; padding:8px 12px; border:1px solid var(--border); border-radius:8px; font-size:13px; }
+  .chip { padding:6px 14px; border-radius:999px; border:1px solid var(--border); background:#fff; font-size:12.5px; font-weight:600; cursor:pointer; color:var(--muted); transition:.15s; }
+  .chip.active { background:var(--blue); border-color:var(--blue); color:#fff; }
+  main { max-width:900px; margin:0 auto; padding:20px 16px 60px; }
+  .month-group { margin-bottom:18px; }
+  .month-header { display:flex; align-items:center; gap:8px; cursor:pointer; padding:10px 4px; user-select:none; }
+  .month-header .chevron { transition:.2s; font-size:12px; color:var(--muted); }
+  .month-header.collapsed .chevron { transform:rotate(-90deg); }
+  .month-header h2 { margin:0; font-size:15px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+  .month-body.collapsed { display:none; }
+  .session-card { background:var(--card); border:1px solid var(--border); border-radius:12px; margin-bottom:12px; padding:14px 16px; display:flex; gap:14px; }
+  .date-badge { flex:0 0 68px; text-align:center; }
+  .date-badge .dow { font-size:11px; color:var(--muted); font-weight:600; text-transform:uppercase; }
+  .date-badge .num { font-size:22px; font-weight:800; color:var(--blue); line-height:1.1; }
+  .meeting-name { font-size:11.5px; color:var(--muted); margin-top:4px; font-weight:600; }
+  .badges-row { display:flex; gap:4px; margin-top:6px; flex-wrap:wrap; justify-content:center; }
+  .badge-small { font-size:9.5px; font-weight:700; padding:2px 6px; border-radius:6px; text-transform:uppercase; letter-spacing:.02em; }
+  .badge-adhoc { background:#fde68a; color:#8a5a00; }
+  .badge-2hour { background:#c7d2fe; color:#3730a3; }
+  .items-col { flex:1 1 auto; min-width:0; }
+  .item-row { display:flex; gap:12px; padding:8px 0; border-top:1px solid #f0f0f3; }
+  .item-row:first-child { border-top:none; padding-top:0; }
+  .tags-col { flex:0 0 110px; display:flex; flex-direction:column; gap:4px; align-items:flex-start; }
+  .tag { font-size:10.5px; font-weight:700; padding:3px 8px; border-radius:6px; white-space:nowrap; }
+  .tag-RTM { background:#dbeafe; color:#1e40af; }
+  .tag-DEO { background:#dcfce7; color:#166534; }
+  .tag-AHM { background:#fee2e2; color:#991b1b; }
+  .tag-Service-Layer { background:#ede9fe; color:#5b21b6; }
+  .tag-JANE { background:#ffedd5; color:#9a3412; }
+  .tag-Other { background:#f1f5f9; color:#475569; }
+  .item-body { flex:1 1 auto; min-width:0; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .title { flex:1 1 320px; font-size:14px; line-height:1.4; }
+  .title.match { background:#fef08a; border-radius:4px; padding:1px 4px; box-shadow:0 0 0 2px #fde047; }
+  .avatars { flex:0 0 auto; display:flex; gap:-4px; }
+  .avatar { width:28px; height:28px; border-radius:50%; border:2px solid #fff; margin-left:-8px; object-fit:cover; cursor:default; box-shadow:0 0 0 1px var(--border); }
+  .avatar:first-child { margin-left:0; }
+  .tooltip-wrap { position:relative; display:inline-block; }
+  .tooltip-wrap .tip { visibility:hidden; opacity:0; position:absolute; bottom:130%; left:50%; transform:translateX(-50%); background:#1a1a2e; color:#fff; font-size:11px; padding:4px 8px; border-radius:6px; white-space:nowrap; transition:.15s; z-index:20; }
+  .tooltip-wrap:hover .tip { visibility:visible; opacity:1; }
+  .empty-state { text-align:center; color:var(--muted); padding:60px 20px; font-size:14px; }
+  footer { text-align:center; color:var(--muted); font-size:12px; padding:20px; }
+  @media (max-width:520px) {
+    .session-card { flex-direction:column; }
+    .date-badge { flex-direction:row; justify-content:flex-start; gap:8px; text-align:left; }
+    .tags-col { flex-direction:row; flex-wrap:wrap; }
+  }
 </style>
 </head>
 <body>
-<header class="top">
+
+<header>
   <div>
-    <h1>Journal Growth — Vibe Session Agenda</h1>
-    <div class="sub">Upcoming sessions, tags, and presenters</div>
+    <h1>Journal Growth: Vibe Session Agenda</h1>
+    <p>Source of truth: Confluence (v353) · Auto-synced every morning</p>
   </div>
-  <a class="edit-btn" href="https://confluence.frontiersin.net/pages/viewpage.action?pageId=637566996" target="_blank" rel="noopener">Edit on Confluence</a>
+  <a class="edit-btn" href="https://confluence.frontiersin.net/pages/viewpage.action?pageId=637566996" target="_blank" rel="noopener">Edit on Confluence &rarr;</a>
 </header>
-<div class="banner">Source of truth: this page is auto-synced from <b>Confluence v353</b>. Last synced <b>2026-08-30 05:11 CET</b>. Do not edit by hand.</div>
-<div class="controls">
-  <div class="filters" id="filters"></div>
-  <div class="search"><input id="search" type="search" placeholder="Search topics or presenters..."></div>
+
+<div class="banner">This page is generated automatically from Confluence. To change the agenda, edit the Confluence page &mdash; do not edit this page directly.</div>
+
+<div class="filter-bar">
+  <input type="text" id="searchBox" placeholder="Search sessions, topics, presenters...">
+  <div class="chip active" data-tag="All">All</div>
+  <div class="chip" data-tag="RTM">RTM</div>
+  <div class="chip" data-tag="DEO">DEO</div>
+  <div class="chip" data-tag="AHM">AHM</div>
+  <div class="chip" data-tag="Service Layer">Service Layer</div>
+  <div class="chip" data-tag="JANE">JANE</div>
 </div>
-<main id="app"></main>
-<footer>Auto-generated from Confluence. Journal Growth @ Frontiers.</footer>
-<script id="payload" type="application/json">{"sessions": [{"date": "2026-09-02", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Overview tab feedback revisions in DEO (Adriana, Dom, Barbara Mark, Mi Khi)", "tags": ["DEO"], "presenters": []}]}, {"date": "2026-09-09", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "CC Journey - Perfect Email (Milena, Jamie)", "tags": ["Other"], "presenters": []}, {"text": "CC Journey Manager (Mati, Alex, Sarah, Juan)", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-11", "dayLabel": "", "meeting_name": "Perfect Email - Vibe Session", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Conversion rates and volumes update (including Internal audience campaigns) - Courtney and Sofi + Hitesh for review", "tags": ["Other"], "presenters": []}, {"text": "CC journey with Perfect Email example content - Courtney, Milena, Jamie", "tags": ["Other"], "presenters": []}, {"text": "Manuscript commissioning campaigns: launch update and email examples - Courtney", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-16", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Pilot plan (DEO)", "tags": ["DEO"], "presenters": []}]}], "photos": {}}</script>
+
+<main id="main"></main>
+
+<footer>Journal Growth &middot; Vibe Session Agenda &middot; auto-generated, do not edit directly</footer>
+
 <script>
-const DATA = JSON.parse(document.getElementById('payload').textContent);
-const PHOTOS = DATA.photos;
-const SESSIONS = DATA.sessions;
-const TAGS = ['All','RTM','DEO','AHM','Service Layer','JANE'];
-let activeTag = 'All';
-let query = '';
+const SESSIONS = [{"date": "2026-09-02", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Overview tab feedback revisions in DEO (Adriana, Dom, Barbara Mark, Mi Khi)", "tags": ["DEO"], "presenters": []}]}, {"date": "2026-09-09", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "CC Journey - Perfect Email (Milena, Jamie)", "tags": ["Other"], "presenters": []}, {"text": "CC Journey Manager (Mati, Alex, Sarah, Juan)", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-11", "dayLabel": "", "meeting_name": "Perfect Email - Vibe Session", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Conversion rates and volumes update (including Internal audience campaigns) - Courtney and Sofi + Hitesh for review", "tags": ["Other"], "presenters": []}, {"text": "CC journey with Perfect Email example content - Courtney, Milena, Jamie", "tags": ["Other"], "presenters": []}, {"text": "Manuscript commissioning campaigns: launch update and email examples - Courtney", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-16", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Pilot plan (DEO)", "tags": ["DEO"], "presenters": []}]}];
+const PHOTOS = {};
+let activeTag = "All";
+let searchTerm = "";
 
-const tagClass = t => t==='Service Layer' ? 'Service' : (['RTM','DEO','AHM','JANE'].includes(t) ? t : (t==='Other'?'Other':'Other'));
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function tagClass(t) { return "tag tag-" + t.replace(/ /g, "-"); }
 
-function buildFilters(){
-  const f = document.getElementById('filters');
-  f.innerHTML = '';
-  TAGS.forEach(t => {
-    const b = document.createElement('button');
-    b.className = 'chip' + (t===activeTag?' active':'');
-    b.textContent = t;
-    b.onclick = () => { activeTag = t; render(); };
-    f.appendChild(b);
-  });
+function monthKey(d) {
+  const dt = new Date(d + "T00:00:00");
+  return dt.toLocaleString("en-US", { month: "long", year: "numeric" });
 }
 
-function itemMatchesTag(it){
-  if(activeTag==='All') return true;
-  return it.tags.includes(activeTag);
-}
-function itemMatchesQuery(it){
-  if(!query) return true;
-  const q = query.toLowerCase();
-  if(it.text.toLowerCase().includes(q)) return true;
-  return it.presenters.some(p => p.toLowerCase().includes(q));
+function highlight(text, term) {
+  if (!term) return { html: text, match: false };
+  const idx = text.toLowerCase().indexOf(term.toLowerCase());
+  if (idx === -1) return { html: text, match: false };
+  return { html: text, match: true };
 }
 
-function render(){
-  buildFilters();
-  const app = document.getElementById('app');
-  app.innerHTML = '';
-  const byMonth = {};
+function matchesFilter(item, session) {
+  const tagOk = activeTag === "All" || item.tags.includes(activeTag);
+  if (!tagOk) return false;
+  if (!searchTerm) return true;
+  const t = searchTerm.toLowerCase();
+  if (item.text.toLowerCase().includes(t)) return true;
+  if (item.presenters.some(p => p.toLowerCase().includes(t))) return true;
+  if (session.meeting_name.toLowerCase().includes(t)) return true;
+  return false;
+}
+
+function render() {
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+
+  const groups = {};
+  const order = [];
   SESSIONS.forEach(s => {
-    const items = s.items.filter(it => itemMatchesTag(it) && itemMatchesQuery(it));
-    if(!items.length) return;
-    const d = new Date(s.date + 'T00:00:00');
-    const key = d.getFullYear()+'-'+d.getMonth();
-    (byMonth[key] = byMonth[key] || {label: MONTHS[d.getMonth()]+' '+d.getFullYear(), sessions:[]}).sessions.push({s, items, d});
+    const anyMatch = s.items.some(it => matchesFilter(it, s));
+    if (!anyMatch) return;
+    const mk = monthKey(s.date);
+    if (!groups[mk]) { groups[mk] = []; order.push(mk); }
+    groups[mk].push(s);
   });
-  const keys = Object.keys(byMonth).sort((a,b)=>{const[ay,am]=a.split('-').map(Number);const[by,bm]=b.split('-').map(Number);return ay-by||am-bm;});
-  if(!keys.length){ app.innerHTML = '<div class="empty">No sessions match your filters.</div>'; return; }
-  keys.forEach(k => {
-    const m = byMonth[k];
-    const mDiv = document.createElement('div');
-    mDiv.className = 'month';
-    const cnt = m.sessions.reduce((a,x)=>a+x.items.length,0);
-    mDiv.innerHTML = '<div class="month-head"><span class="caret">▼</span><h2>'+m.label+'</h2><span class="month-count">'+cnt+' item'+(cnt>1?'s':'')+'</span></div><div class="month-body"></div>';
-    const head = mDiv.querySelector('.month-head');
-    head.onclick = () => mDiv.classList.toggle('collapsed');
-    const mb = mDiv.querySelector('.month-body');
-    m.sessions.forEach(({s, items, d}) => mb.appendChild(card(s, items, d)));
-    app.appendChild(mDiv);
+
+  if (order.length === 0) {
+    main.innerHTML = '<div class="empty-state">No sessions match your filters.</div>';
+    return;
+  }
+
+  order.forEach(mk => {
+    const mg = document.createElement("div");
+    mg.className = "month-group";
+    const header = document.createElement("div");
+    header.className = "month-header";
+    header.innerHTML = '<span class="chevron">&#9660;</span><h2>' + mk + '</h2>';
+    const bodyDiv = document.createElement("div");
+    bodyDiv.className = "month-body";
+
+    groups[mk].forEach(s => {
+      const dt = new Date(s.date + "T00:00:00");
+      const dow = dt.toLocaleString("en-US", { weekday: "short" });
+      const num = dt.getDate();
+
+      const card = document.createElement("div");
+      card.className = "session-card";
+
+      let badges = "";
+      if (s.is_adhoc) badges += '<span class="badge-small badge-adhoc">Ad-hoc</span>';
+      if (s.is_2hour) badges += '<span class="badge-small badge-2hour">2h</span>';
+
+      let dateCol = '<div class="date-badge"><div class="dow">' + dow + '</div><div class="num">' + num +
+        '</div><div class="meeting-name">' + s.meeting_name.replace(/\(Ad-hoc\)|\(2-hour\)/g, "").trim() + '</div>';
+      if (badges) dateCol += '<div class="badges-row">' + badges + '</div>';
+      dateCol += '</div>';
+
+      let itemsHtml = '<div class="items-col">';
+      s.items.forEach(it => {
+        if (!matchesFilter(it, s)) return;
+        const isMatch = searchTerm && it.text.toLowerCase().includes(searchTerm.toLowerCase());
+        const tagsHtml = it.tags.map(t => '<span class="' + tagClass(t) + '">' + t + '</span>').join("");
+        const avatarsHtml = it.presenters.map(p => {
+          const src = PHOTOS[p] || "";
+          return '<span class="tooltip-wrap"><img class="avatar" src="' + src + '" alt="' + p + '"><span class="tip">' + p + '</span></span>';
+        }).join("");
+        itemsHtml += '<div class="item-row">' +
+          '<div class="tags-col">' + tagsHtml + '</div>' +
+          '<div class="item-body"><div class="title' + (isMatch ? ' match' : '') + '">' + it.text + '</div>' +
+          '<div class="avatars">' + avatarsHtml + '</div></div>' +
+          '</div>';
+      });
+      itemsHtml += '</div>';
+
+      card.innerHTML = dateCol + itemsHtml;
+      bodyDiv.appendChild(card);
+    });
+
+    header.addEventListener("click", () => {
+      header.classList.toggle("collapsed");
+      bodyDiv.classList.toggle("collapsed");
+    });
+
+    mg.appendChild(header);
+    mg.appendChild(bodyDiv);
+    main.appendChild(mg);
   });
 }
 
-function card(s, items, d){
-  const c = document.createElement('div');
-  c.className = 'card';
-  const dow = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
-  const mon = MONTHS[d.getMonth()].slice(0,3);
-  let flags = '';
-  if(s.is_adhoc) flags += '<span class="flag adhoc">Ad-hoc</span>';
-  if(s.is_2hour) flags += '<span class="flag twohr">2h</span>';
-  let html = '<div class="datebadge"><div class="dow">'+dow+'</div><div class="day">'+d.getDate()+'</div><div class="mon">'+mon+'</div></div>';
-  const tl = s.time_label ? '<span class="when">'+esc(s.time_label)+'</span>' : '';
-  html += '<div class="card-main"><div class="meeting">'+esc(s.meeting_name)+tl+flags+'</div>';
-  items.forEach(it => {
-    const tags = it.tags.map(t => '<span class="tag '+tagClass(t)+'">'+esc(t)+'</span>').join('');
-    const q = query.toLowerCase();
-    const titleMatch = q && it.text.toLowerCase().includes(q);
-    const avs = it.presenters.map(p => {
-      const pm = q && p.toLowerCase().includes(q);
-      const src = PHOTOS[p] || '';
-      return '<span class="avwrap'+(pm?' glow':'')+'"><img src="'+src+'" alt="'+esc(p)+'"><span class="tip">'+esc(p)+'</span></span>';
-    }).join('');
-    html += '<div class="item"><div class="tagcol">'+tags+'</div><div class="item-body"><div class="title'+(titleMatch?' match':'')+'">'+esc(it.text)+'</div><div class="avatars">'+avs+'</div></div></div>';
+document.querySelectorAll(".chip").forEach(chip => {
+  chip.addEventListener("click", () => {
+    document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
+    activeTag = chip.dataset.tag;
+    render();
   });
-  html += '</div>';
-  c.innerHTML = html;
-  return c;
-}
+});
 
-function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+document.getElementById("searchBox").addEventListener("input", e => {
+  searchTerm = e.target.value.trim();
+  render();
+});
 
-document.getElementById('search').addEventListener('input', e => { query = e.target.value.trim(); render(); });
 render();
 </script>
 </body>
