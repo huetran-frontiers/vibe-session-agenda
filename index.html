@@ -8,159 +8,179 @@
 <style>
   :root { --blue:#003BDE; --bg:#f9fafb; --card:#ffffff; --border:#e5e7eb; --text:#111827; --muted:#6b7280; }
   * { box-sizing: border-box; }
-  body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; font-size:14px; }
+  body { margin:0; padding:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); font-size:14px; }
   header { background:var(--blue); color:#fff; padding:20px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
   header h1 { margin:0; font-size:20px; font-weight:700; }
   header .sub { font-size:12px; opacity:.85; margin-top:4px; }
   .edit-btn { background:#fff; color:var(--blue); border:none; padding:8px 16px; border-radius:6px; font-weight:600; text-decoration:none; font-size:13px; white-space:nowrap; }
   .edit-btn:hover { opacity:.9; }
+  .banner { background:#eef2ff; border-bottom:1px solid #c7d2fe; padding:10px 24px; font-size:12px; color:#3730a3; }
   .filter-bar { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--border); padding:12px 24px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-  .filter-bar input[type=text] { flex:1 1 200px; padding:8px 12px; border:1px solid var(--border); border-radius:6px; font-size:13px; min-width:150px; }
-  .chip { padding:6px 14px; border-radius:999px; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:13px; font-weight:600; color:var(--muted); }
-  .chip.active { color:#fff; border-color:transparent; }
-  .container { max-width:900px; margin:0 auto; padding:20px 16px 60px; width:100%; }
-  .banner { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:10px 14px; border-radius:8px; font-size:12.5px; margin-bottom:16px; }
-  .month-group { margin-bottom:8px; }
-  .month-header { display:flex; align-items:center; gap:8px; padding:10px 4px; cursor:pointer; font-weight:700; font-size:15px; color:var(--text); user-select:none; }
-  .month-header .chevron { transition:transform .15s; font-size:12px; color:var(--muted); }
-  .month-group.collapsed .chevron { transform:rotate(-90deg); }
-  .month-group.collapsed .sessions { display:none; }
-  .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:10px; display:flex; gap:14px; }
-  .date-badge { flex:0 0 64px; text-align:center; }
-  .date-badge .dow { font-size:11px; color:var(--muted); text-transform:uppercase; font-weight:600; }
-  .date-badge .num { font-size:20px; font-weight:700; }
-  .date-badge .mon { font-size:11px; color:var(--muted); }
-  .badges-row { margin-top:6px; display:flex; flex-direction:column; gap:3px; align-items:center; }
-  .flag-badge { font-size:9.5px; font-weight:700; padding:2px 6px; border-radius:5px; white-space:nowrap; }
-  .flag-adhoc { background:#FEF3C7; color:#92400E; }
-  .flag-2hour { background:#DBEAFE; color:#1E40AF; }
-  .card-body { flex:1; min-width:0; }
-  .meeting-name { font-size:12px; color:var(--muted); font-weight:600; margin-bottom:8px; }
-  .item-row { display:flex; flex-wrap:wrap; align-items:flex-start; gap:10px; padding:6px 0; border-top:1px solid #f3f4f6; }
-  .item-row:first-child { border-top:none; }
+  .filter-bar input { flex:1 1 200px; padding:8px 12px; border:1px solid var(--border); border-radius:6px; font-size:13px; }
+  .tag-btn { padding:6px 14px; border-radius:20px; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:12px; font-weight:600; color:var(--muted); }
+  .tag-btn.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+  main { max-width:960px; margin:0 auto; padding:20px 24px 60px; }
+  .month-group { margin-bottom:16px; }
+  .month-header { font-size:13px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; padding:10px 0; cursor:pointer; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); }
+  .month-header .chevron { transition:transform .15s; font-size:10px; }
+  .month-header.collapsed .chevron { transform:rotate(-90deg); }
+  .month-body.collapsed { display:none; }
+  .session-card { background:var(--card); border:1px solid var(--border); border-radius:10px; margin:12px 0; padding:14px 16px; display:flex; gap:14px; }
+  .date-badge { flex:0 0 66px; text-align:center; }
+  .date-badge .day { font-size:11px; color:var(--muted); text-transform:uppercase; }
+  .date-badge .num { font-size:20px; font-weight:700; color:var(--blue); }
+  .badges-row { display:flex; gap:4px; margin-top:4px; flex-wrap:wrap; justify-content:center; }
+  .mini-badge { font-size:9px; font-weight:700; padding:2px 6px; border-radius:8px; text-transform:uppercase; }
+  .mini-badge.adhoc { background:#fef3c7; color:#92400e; }
+  .mini-badge.twohour { background:#dbeafe; color:#1e40af; }
   .tags-col { flex:0 0 110px; display:flex; flex-direction:column; gap:4px; }
-  .tag-pill { font-size:10.5px; font-weight:700; color:#fff; padding:2px 8px; border-radius:5px; display:inline-block; width:fit-content; }
-  .item-body { flex:1 1 320px; display:flex; flex-wrap:wrap; align-items:center; gap:8px; min-width:0; }
-  .title { flex:1 1 320px; font-size:13.5px; line-height:1.4; }
-  .title.match { background:#FEF08A; border-radius:4px; padding:1px 4px; box-shadow:0 0 0 2px #FDE047; }
+  .tag-pill { font-size:10px; font-weight:700; padding:3px 8px; border-radius:10px; display:inline-block; width:fit-content; }
+  .tag-RTM { background:#dcfce7; color:#166534; }
+  .tag-DEO { background:#fce7f3; color:#9d174d; }
+  .tag-AHM { background:#fef3c7; color:#92400e; }
+  .tag-Service-Layer { background:#e0e7ff; color:#3730a3; }
+  .tag-JANE { background:#cffafe; color:#155e75; }
+  .tag-Other { background:#f3f4f6; color:#4b5563; }
+  .meeting-name { font-size:11px; color:var(--muted); font-weight:600; margin-bottom:6px; }
+  .items { flex:1; display:flex; flex-direction:column; gap:10px; }
+  .item-body { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  .title { flex:1 1 320px; font-size:14px; }
   .avatars { flex:0 0 auto; display:flex; gap:-4px; }
-  .avatars img { width:26px; height:26px; border-radius:50%; border:2px solid #fff; margin-left:-8px; object-fit:cover; cursor:default; }
-  .avatars img:first-child { margin-left:0; }
-  .avatars img:hover { z-index:5; position:relative; }
-  .empty { text-align:center; color:var(--muted); padding:40px 20px; font-size:13px; }
-  footer { text-align:center; color:var(--muted); font-size:11.5px; padding:20px; }
-  a { color:var(--blue); }
+  .avatar { width:28px; height:28px; border-radius:50%; border:2px solid #fff; margin-left:-8px; object-fit:cover; cursor:default; box-shadow:0 0 0 1px var(--border); }
+  .avatar:first-child { margin-left:0; }
+  .avatar[title]:hover { transform:scale(1.15); z-index:5; position:relative; }
+  .glow { box-shadow:0 0 0 3px #fde047 !important; border-radius:6px; }
+  .empty-state { text-align:center; color:var(--muted); padding:40px 0; }
 </style>
 </head>
 <body>
 <header>
   <div>
     <h1>Journal Growth Vibe Session Agenda</h1>
-    <div class="sub">Synced from Confluence &middot; v362 &middot; 2026-09-01</div>
+    <div class="sub">Synced from Confluence &middot; v364 &middot; 2026-09-02</div>
   </div>
-  <a class="edit-btn" href="https://confluence.frontiersin.net/pages/viewpage.action?pageId=637566996" target="_blank" rel="noopener">Edit on Confluence &rarr;</a>
+  <a class="edit-btn" href="https://confluence.frontiersin.net/pages/viewpage.action?pageId=637566996" target="_blank" rel="noopener">Edit on Confluence</a>
 </header>
+<div class="banner">Source of truth: this page mirrors the Confluence Vibe Session table and is regenerated automatically every morning. Edit Confluence, not this page.</div>
 <div class="filter-bar">
   <input type="text" id="search" placeholder="Search sessions, presenters...">
-  <span class="chip active" data-tag="All">All</span>
-  <span class="chip" data-tag="RTM">RTM</span><span class="chip" data-tag="DEO">DEO</span><span class="chip" data-tag="AHM">AHM</span><span class="chip" data-tag="Service Layer">Service Layer</span><span class="chip" data-tag="JANE">JANE</span>
+  <button class="tag-btn active" data-tag="All">All</button>
+  <button class="tag-btn" data-tag="RTM">RTM</button>
+  <button class="tag-btn" data-tag="DEO">DEO</button>
+  <button class="tag-btn" data-tag="AHM">AHM</button>
+  <button class="tag-btn" data-tag="Service Layer">Service Layer</button>
+  <button class="tag-btn" data-tag="JANE">JANE</button>
 </div>
-<div class="container">
-  <div class="banner">Source of truth: <a href="https://confluence.frontiersin.net/pages/viewpage.action?pageId=637566996" target="_blank" rel="noopener">Confluence page</a>. This site rebuilds every morning &mdash; edit the Confluence table to change the agenda.</div>
-  <div id="sessions-root"></div>
-  <div id="empty-state" class="empty" style="display:none;">No sessions match your filters.</div>
-</div>
-<footer>Journal Growth &middot; Vibe Session Agenda &middot; auto-synced daily</footer>
+<main id="main"></main>
+
 <script>
-const SESSIONS = [{"date": "2026-09-02", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Updated UI guidelines (Dan, Mi Khi)", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-04", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "TBD", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-04", "dayLabel": "", "meeting_name": "Perfect Email - Vibe Session", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Business Updatde", "tags": ["Other"], "presenters": []}, {"text": "Direct Manuscript Commissioning test & pilot", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-09", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "CC Journey - Perfect Email (Milena, Jamie)", "tags": ["Other"], "presenters": []}, {"text": "CC Journey Manager (Mati, Alex, Sarah, Juan)", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-11", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Case Processing Agent (Mati, Alex)", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-11", "dayLabel": "", "meeting_name": "Perfect Email - Vibe Session", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Conversion rates and volumes update (including Internal audience campaigns) - Courtney and Sofi + Hitesh for review", "tags": ["Other"], "presenters": []}, {"text": "CC journey with Perfect Email example content - Courtney, Milena, Jamie", "tags": ["Other"], "presenters": []}, {"text": "Manuscript commissioning campaigns: launch update and email examples - Courtney", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-16", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Pilot plan (DEO)", "tags": ["DEO"], "presenters": []}]}];
+const SESSIONS = [{"date": "2026-09-04", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Review UI feedback and progress (DEO)", "tags": ["DEO"], "presenters": []}]}, {"date": "2026-09-04", "dayLabel": "", "meeting_name": "Perfect Email - Vibe Session", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Business Update", "tags": ["Other"], "presenters": []}, {"text": "Direct Manuscript Commissioning test & pilot", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-09", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "CC Journey - Perfect Email (Milena, Jamie)", "tags": ["Other"], "presenters": []}, {"text": "CC Journey Manager (Mati, Alex, Sarah, Juan)", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-11", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Case Processing Agent (Mati, Alex)", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-11", "dayLabel": "", "meeting_name": "Perfect Email - Vibe Session", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Conversion rates and volumes update (including Internal audience campaigns) - Courtney and Sofi + Hitesh for review", "tags": ["Other"], "presenters": []}, {"text": "CC journey with Perfect Email example content - Courtney, Milena, Jamie", "tags": ["Other"], "presenters": []}, {"text": "Manuscript commissioning campaigns: launch update and email examples - Courtney", "tags": ["Other"], "presenters": []}]}, {"date": "2026-09-16", "dayLabel": "", "meeting_name": "Journal Growth: RTM/DEO Rebuild", "is_adhoc": false, "is_2hour": false, "items": [{"text": "Pilot plan (DEO)", "tags": ["DEO"], "presenters": []}]}];
 const PHOTOS = {};
-const TAG_COLORS = {"RTM": "#0EA5E9", "DEO": "#F59E0B", "AHM": "#EF4444", "Service Layer": "#8B5CF6", "JANE": "#10B981", "Other": "#6B7280"};
-
-function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-function fmtDate(iso){
-  const d = new Date(iso+'T00:00:00');
-  const dow = d.toLocaleDateString('en-US',{weekday:'short'});
-  const mon = d.toLocaleDateString('en-US',{month:'short'});
-  return {dow, num:d.getDate(), mon};
-}
-function monthKey(iso){
-  const d = new Date(iso+'T00:00:00');
-  return d.toLocaleDateString('en-US',{month:'long',year:'numeric'});
-}
-
 let activeTag = 'All';
-let searchTerm = '';
+let searchQ = '';
 
-function render(){
-  const root = document.getElementById('sessions-root');
-  root.innerHTML = '';
+function tagClass(t) { return 'tag-' + t.replace(/\s+/g,'-'); }
+
+function fmtDate(iso) {
+  const d = new Date(iso + 'T00:00:00');
+  const day = d.toLocaleDateString('en-US', { weekday: 'short' });
+  const num = d.getDate();
+  return { day, num, monthKey: d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) };
+}
+
+function matchesFilter(session, item) {
+  const tagOk = activeTag === 'All' || item.tags.includes(activeTag);
+  if (!tagOk) return false;
+  if (!searchQ) return true;
+  const hay = (item.text + ' ' + item.presenters.join(' ') + ' ' + session.meeting_name).toLowerCase();
+  return hay.includes(searchQ.toLowerCase());
+}
+
+function render() {
+  const main = document.getElementById('main');
+  main.innerHTML = '';
   const groups = {};
   let anyVisible = false;
   SESSIONS.forEach(s => {
-    const mk = monthKey(s.date);
-    if(!groups[mk]) groups[mk] = [];
-    groups[mk].push(s);
+    const visibleItems = s.items.filter(it => matchesFilter(s, it));
+    if (visibleItems.length === 0) return;
+    anyVisible = true;
+    const { monthKey } = fmtDate(s.date);
+    if (!groups[monthKey]) groups[monthKey] = [];
+    groups[monthKey].push({ session: s, items: visibleItems });
   });
-  Object.keys(groups).forEach(mk => {
-    const monthSessions = groups[mk];
-    const monthDiv = document.createElement('div');
-    monthDiv.className = 'month-group';
+
+  if (!anyVisible) {
+    main.innerHTML = '<div class="empty-state">No sessions match your filter.</div>';
+    return;
+  }
+
+  Object.keys(groups).forEach(monthKey => {
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'month-group';
     const header = document.createElement('div');
     header.className = 'month-header';
-    header.innerHTML = '<span class="chevron">&#9660;</span> ' + esc(mk);
-    header.onclick = () => monthDiv.classList.toggle('collapsed');
-    monthDiv.appendChild(header);
-    const sessDiv = document.createElement('div');
-    sessDiv.className = 'sessions';
-    let monthHasVisible = false;
-    monthSessions.forEach(s => {
-      const visibleItems = s.items.filter(it => {
-        const tagOk = activeTag === 'All' || it.tags.includes(activeTag);
-        const hay = (it.text + ' ' + it.presenters.join(' ')).toLowerCase();
-        const searchOk = !searchTerm || hay.includes(searchTerm);
-        return tagOk && searchOk;
-      });
-      if(visibleItems.length === 0) return;
-      monthHasVisible = true; anyVisible = true;
-      const {dow, num, mon} = fmtDate(s.date);
+    header.innerHTML = '<span class="chevron">&#9660;</span> ' + monthKey;
+    header.onclick = () => {
+      header.classList.toggle('collapsed');
+      body.classList.toggle('collapsed');
+    };
+    const body = document.createElement('div');
+    body.className = 'month-body';
+
+    groups[monthKey].forEach(({ session, items }) => {
+      const { day, num } = fmtDate(session.date);
       const card = document.createElement('div');
-      card.className = 'card';
-      let flagsHtml = '';
-      if(s.is_adhoc) flagsHtml += '<span class="flag-badge flag-adhoc">Ad-hoc</span>';
-      if(s.is_2hour) flagsHtml += '<span class="flag-badge flag-2hour">2h</span>';
-      const itemsHtml = visibleItems.map(it => {
-        const tagsHtml = it.tags.map(t => '<span class="tag-pill" style="background:' + (TAG_COLORS[t]||'#6b7280') + '">' + esc(t) + '</span>').join('');
-        const isMatch = searchTerm && (it.text + ' ' + it.presenters.join(' ')).toLowerCase().includes(searchTerm);
-        const avatarsHtml = it.presenters.map(p => '<img src="' + (PHOTOS[p]||'') + '" title="' + esc(p) + '" alt="' + esc(p) + '">').join('');
-        return '<div class="item-row"><div class="tags-col">' + tagsHtml + '</div><div class="item-body"><div class="title' + (isMatch?' match':'') + '">' + esc(it.text) + '</div><div class="avatars">' + avatarsHtml + '</div></div></div>';
+      card.className = 'session-card';
+
+      let badgesHtml = '';
+      if (session.is_adhoc) badgesHtml += '<span class="mini-badge adhoc">Ad-hoc</span>';
+      if (session.is_2hour) badgesHtml += '<span class="mini-badge twohour">2h</span>';
+
+      const itemsHtml = items.map(it => {
+        const tagsHtml = it.tags.map(t => `<span class="tag-pill ${tagClass(t)}">${t}</span>`).join('');
+        const avatarsHtml = it.presenters.map(p => {
+          const src = PHOTOS[p] || '';
+          return `<img class="avatar" src="${src}" title="${p}" alt="${p}">`;
+        }).join('');
+        const isMatch = searchQ && (it.text.toLowerCase().includes(searchQ.toLowerCase()) || it.presenters.join(' ').toLowerCase().includes(searchQ.toLowerCase()));
+        return `<div class="item-body">
+          <div class="tags-col-inline" style="flex:0 0 auto; display:flex; gap:4px; flex-wrap:wrap;">${tagsHtml}</div>
+          <div class="title ${isMatch ? 'glow' : ''}">${it.text}</div>
+          <div class="avatars">${avatarsHtml}</div>
+        </div>`;
       }).join('');
-      card.innerHTML =
-        '<div class="date-badge"><div class="dow">' + dow + '</div><div class="num">' + num + '</div><div class="mon">' + mon + '</div>' +
-        (flagsHtml? '<div class="badges-row">' + flagsHtml + '</div>' : '') + '</div>' +
-        '<div class="card-body"><div class="meeting-name">' + esc(s.meeting_name) + '</div>' + itemsHtml + '</div>';
-      sessDiv.appendChild(card);
+
+      card.innerHTML = `
+        <div class="date-badge">
+          <div class="day">${day}</div>
+          <div class="num">${num}</div>
+          <div class="badges-row">${badgesHtml}</div>
+        </div>
+        <div class="items" style="flex:1;">
+          <div class="meeting-name">${session.meeting_name}</div>
+          ${itemsHtml}
+        </div>
+      `;
+      body.appendChild(card);
     });
-    monthDiv.appendChild(sessDiv);
-    if(monthHasVisible) root.appendChild(monthDiv);
+
+    groupDiv.appendChild(header);
+    groupDiv.appendChild(body);
+    main.appendChild(groupDiv);
   });
-  document.getElementById('empty-state').style.display = anyVisible ? 'none' : 'block';
 }
 
-document.querySelectorAll('.chip').forEach(chip => {
-  chip.onclick = () => {
-    document.querySelectorAll('.chip').forEach(c => { c.classList.remove('active'); c.style.background=''; c.style.borderColor=''; c.style.color=''; });
-    chip.classList.add('active');
-    activeTag = chip.dataset.tag;
-    if(activeTag !== 'All'){
-      chip.style.background = TAG_COLORS[activeTag] || '#003BDE';
-      chip.style.color = '#fff';
-    }
+document.querySelectorAll('.tag-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTag = btn.dataset.tag;
     render();
-  };
+  });
 });
 document.getElementById('search').addEventListener('input', e => {
-  searchTerm = e.target.value.toLowerCase().trim();
+  searchQ = e.target.value;
   render();
 });
 
